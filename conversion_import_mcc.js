@@ -44,7 +44,7 @@ function uploadConversions(accountId, csvUrl) {
   // set the upload type and apply
   upload.forOfflineConversions();
   upload.apply();
-  Logger.log("Offline conversions have been successfully applied to account %s (%s)", 
+  Logger.log("Offline conversions have been successfully applied to account %s ('%s')", 
              childAccount.getCustomerId(), 
              childAccount.getName());
 }

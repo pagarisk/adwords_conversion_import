@@ -1,4 +1,4 @@
- function main() {
+function main() {
   // set desired account ID for uploading conversions 
   // and the URL to download pre-formatted CSV from
   uploadConversions(accountId = '123-456-7890',

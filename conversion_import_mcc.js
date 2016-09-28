@@ -1,24 +1,26 @@
 function main() {
-  uploadConversions(csvUrl = 'http://remote.host.com/subdirectory/import_file.csv',
-                    accountId = '123-456-7890');
+  // set desired account ID for uploading conversions 
+  // and the URL to download pre-formatted CSV from
+  uploadConversions(accountId = '123-456-7890',
+                    csvUrl = 'http://remote.host.com/subdirectory/import_file.csv');
 }
 
-function uploadConversions(csvUrl, accountId) {
-  // set desired account ID for uploading conversions
-  var targetAccountId = accountId; 
-  
-  // set the URL to download pre-formatted CSV from
+function uploadConversions(accountId, csvUrl) {
+  var targetAccountId = accountId;
+  Logger.log("Target account set to %s", targetAccountId);
   var csvUrl = csvUrl; 
+  Logger.log("CSV source set to %s", csvUrl);
 
-  var mccAccount = AdWordsApp.currentAccount();
-  Logger.log("MCC account set to %s, ('%s')", mccAccount.getCustomerId(), mccAccount.getName());  
-
-  var childAccounts = MccApp.accounts().withIds([targetAccountId]).get();
-  var childAccount = childAccounts.next();
+  var childAccount = MccApp.accounts()
+  .withIds([targetAccountId])
+  .get()
+  .next();
   
   MccApp
   .select(childAccount);
-  Logger.log("Selected account %s ('%s')", childAccount.getCustomerId(), childAccount.getName());
+  Logger.log("Selected account %s ('%s')", 
+             childAccount.getCustomerId(), 
+             childAccount.getName());
   
   var blob = UrlFetchApp.fetch(csvUrl)
   .getBlob()
@@ -27,8 +29,14 @@ function uploadConversions(csvUrl, accountId) {
 
   var upload = AdWordsApp
   .bulkUploads()
-  .newFileUpload(blob, moneyInMicros = false, timeZone = "-0500");
+  .newFileUpload(blob, 
+                 moneyInMicros = false, 
+                 timeZone = "-0500");
+  Logger.log("Successfully created upload object.");
   
   upload.forOfflineConversions();
   upload.apply();
+  Logger.log("Offline conversions has been successfully applied to account %s (%s)", 
+             childAccount.getCustomerId(), 
+             childAccount.getName());
 }

@@ -22,4 +22,4 @@ The `accountId` variable represents the **child account ID** that the conversion
 
 ### CSV URL
 
-This is the URL where the latest CSV with conversions is located. Please note that the URL should return **the actual CSV file** and nothing else, so various file sharing services won't work.
+The `csvUrl` variable should contain the URL where the latest CSV with conversions is located. Please note that the URL should return **the actual CSV file** and nothing else, so various file sharing services won't work.
